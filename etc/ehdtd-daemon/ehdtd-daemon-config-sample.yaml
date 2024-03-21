@@ -1,0 +1,37 @@
+
+global:
+    log_dir: None # Default /var/log/ehdtd-daemon
+    run_dir: None # Default /run
+    debug: false
+
+db_data:
+  db_type: postgresql  # postgresql, mysql
+  db_name: 'DB_NAME'
+  db_user: 'DB_USER'
+  db_pass: 'DB_PASS'
+  db_host: 'DB_HOST'
+  db_port: 'DB_PORT'
+
+exchanges:
+  binance:
+    trading_type: 'SPOT'
+
+    fetch_data:
+      - symbol: BTC/USDT
+        interval: 1m
+      - symbol: 'BNB/USDT'
+        interval: 1m
+      - symbol: 'ETH/USDT'
+        interval: 1m
+      - symbol: LTC/USDT
+        interval: 1m
+
+      - symbol: BTC/USDT
+        interval: 5m
+      - symbol: 'BNB/USDT'
+        interval: 5m
+      - symbol: 'ETH/USDT'
+        interval: 5m
+      - symbol: LTC/USDT
+        interval: 5m
+

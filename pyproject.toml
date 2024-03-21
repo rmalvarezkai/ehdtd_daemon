@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "ehdtd-daemon"
+version = "0.1.0"
+description = "Daemon script for ehdtd package"
+authors = ["Ricardo Marcelo Alvarez <rmalvarezkai@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/rmalvarezkai/ehdtd_daemon"
+include = ["etc/ehdtd-daemon/ehdtd-daemon-config-sample.yaml"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+ehdtd = "^0.1.1"
+pyyaml = "^6.0.1"
+
+[tool.poetry.scripts]
+ehdtd_daemon = 'ehdtd_daemon.bin.ehdtd_daemon:main'
+
+[tool.poetry.group.dev.dependencies]
+pylint = "^3.1.0"
+pytest = "^8.1.1"
+pytest-xdist = "^3.5.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
