@@ -201,7 +201,7 @@ def main():
 
     elif command_input == "stop":
         result = 0
-        log_msg = f'Stopping {self_script_name} ... '
+        log_msg = f'Stopping {self_script_name} ...'
         print(log_msg ,end='')
         check_pid = os.getpid()
 
@@ -218,12 +218,13 @@ def main():
 
         while acf.is_pid_running(pid_to_kill) and time_stop <= max_wait_to_stop:
             time_stop += 1
+            print('.' ,end='')
             time.sleep(1)
 
         if acf.is_pid_running(pid_to_kill):
             os.kill(pid_to_kill,signal.SIGKILL)
             result = 1
-        print('Ready')
+        print(' Ready')
 
     return result
 
