@@ -67,7 +67,7 @@ def main():
     try:
         optlist, args = getopt.getopt(argv, 'hc:', ['help', 'config='])
     except getopt.GetoptError:
-        print(help_msg)
+        print(help_msg, flush=True)
         return 2
 
     for opts, arg in optlist:
@@ -80,14 +80,14 @@ def main():
         command_input = args[0]
 
     if print_help_msg:
-        print(help_msg)
+        print(help_msg, flush=True)
         return 0
 
     config_data = acf.get_config_data(config_file)
 
     if config_data is None:
         err_msg = 'Inexistent or bad config file.'
-        print(err_msg)
+        print(err_msg, flush=True)
         return 2
 
     log_dir = config_data['global']['log_dir']
@@ -95,7 +95,6 @@ def main():
     run_file = os.path.join(run_dir, "ehdtd-daemon.pid")
     log_file = os.path.join(log_dir, "ehdtd-daemon.log")
     err_file = os.path.join(log_dir, "ehdtd-daemon.err")
-
 
     if command_input == "start":
         def capture_signal(signal_number, frame): # pylint: disable=unused-argument
@@ -186,14 +185,15 @@ def main():
 
         else:
             log_msg = f'Starting {self_script_name} ... '
-            print(log_msg, end='')
-            print('Ready')
-            sys.exit(0)
+            print(log_msg, end='', flush=True)
+            time.sleep(1)
+            print('Ready', flush=True)
+            return 0
 
     elif command_input == "stop":
         result = 0
         log_msg = f'Stopping {self_script_name} ...'
-        print(log_msg, end='')
+        print(log_msg, end='', flush=True)
         check_pid = os.getpid()
 
         pid_to_kill = None
@@ -209,13 +209,13 @@ def main():
 
         while acf.is_pid_running(pid_to_kill) and time_stop <= max_wait_to_stop:
             time_stop += 1
-            print('.' ,end='')
-            time.sleep(1)
+            print('.', end='', flush=True)
+            time.sleep(5)
 
         if acf.is_pid_running(pid_to_kill):
             os.kill(pid_to_kill,signal.SIGKILL)
             result = 1
-        print(' Ready')
+        print(' Ready', flush=True)
 
     return result
 
