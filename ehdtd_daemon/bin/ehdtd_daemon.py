@@ -42,21 +42,6 @@ def main():
     result = 0
     global DAEMON_RUNNING # pylint: disable=global-statement
 
-    def capture_signal(signal_number, frame): # pylint: disable=unused-argument
-        """
-        capture_signal
-        ==============
-
-        """
-        global DAEMON_RUNNING # pylint: disable=global-statement
-        result = True
-        DAEMON_RUNNING = False # pylint: disable=unused-variable
-        return result
-
-
-    signal.signal(signal.SIGTERM, capture_signal)
-    signal.signal(signal.SIGINT, capture_signal)
-
     argv = sys.argv[1:]
 
     config_file = '/etc/ehdtd-daemon/ehdtd-daemon.yaml'
@@ -111,45 +96,51 @@ def main():
     log_file = os.path.join(log_dir, "ehdtd-daemon.log")
     err_file = os.path.join(log_dir, "ehdtd-daemon.err")
 
-    for handler in logging.root.handlers[:]:
-        logging.root.removeHandler(handler)
-
-    __log_formatter = (
-        logging.Formatter('%(asctime)s %(message)s', datefmt='%Y-%m-%d %H:%M:%S -')
-    )
-
-    __err_formatter = (
-        logging.Formatter('%(asctime)s %(message)s', datefmt='%Y-%m-%d %H:%M:%S -')
-    )
-
-    log_handler = logging.FileHandler(log_file)
-    log_handler.setFormatter(__log_formatter)
-    __local_log_logger = logging.getLogger('EHDTD_DAEMON_LOG')
-    __local_log_logger.setLevel(logging.INFO)
-
-    for handler in __local_log_logger.handlers[:]:
-        __local_log_logger.removeHandler(handler)
-
-    __local_log_logger.addHandler(log_handler)
-
-    err_handler = logging.FileHandler(err_file)
-    err_handler.setFormatter(__err_formatter)
-    __local_err_logger = logging.getLogger('EHDTD_DAEMON_ERR')
-    __local_err_logger.setLevel(logging.ERROR)
-
-    for handler in __local_err_logger.handlers[:]:
-        __local_err_logger.removeHandler(handler)
-
-    __local_err_logger.addHandler(err_handler)
-
-    config_file = 'etc/ehdtd-daemon/ehdtd-daemon-config.yaml'
-    config_data = acf.get_config_data(config_file)
 
     if command_input == "start":
+        def capture_signal(signal_number, frame): # pylint: disable=unused-argument
+            global DAEMON_RUNNING # pylint: disable=global-statement
+            result = True
+            DAEMON_RUNNING = False # pylint: disable=unused-variable
+            return result
+
+        signal.signal(signal.SIGTERM, capture_signal)
+        signal.signal(signal.SIGINT, capture_signal)
 
         command_pid = os.fork()
 
         if command_pid == 0:
+            for handler in logging.root.handlers[:]:
+                logging.root.removeHandler(handler)
+
+            __log_formatter = (
+                logging.Formatter('%(asctime)s %(message)s', datefmt='%Y-%m-%d %H:%M:%S -')
+            )
+
+            __err_formatter = (
+                logging.Formatter('%(asctime)s %(message)s', datefmt='%Y-%m-%d %H:%M:%S -')
+            )
+
+            log_handler = logging.FileHandler(log_file)
+            log_handler.setFormatter(__log_formatter)
+            __local_log_logger = logging.getLogger('EHDTD_DAEMON_LOG')
+            __local_log_logger.setLevel(logging.INFO)
+
+            for handler in __local_log_logger.handlers[:]:
+                __local_log_logger.removeHandler(handler)
+
+            __local_log_logger.addHandler(log_handler)
+
+            err_handler = logging.FileHandler(err_file)
+            err_handler.setFormatter(__err_formatter)
+            __local_err_logger = logging.getLogger('EHDTD_DAEMON_ERR')
+            __local_err_logger.setLevel(logging.ERROR)
+
+            for handler in __local_err_logger.handlers[:]:
+                __local_err_logger.removeHandler(handler)
+
+            __local_err_logger.addHandler(err_handler)
+
             log_msg = f'Starting {self_script_name}'
             __local_log_logger.info(log_msg)
             daemon_pid = os.getpid()
@@ -195,14 +186,14 @@ def main():
 
         else:
             log_msg = f'Starting {self_script_name} ... '
-            print(log_msg ,end='')
+            print(log_msg, end='')
             print('Ready')
             sys.exit(0)
 
     elif command_input == "stop":
         result = 0
         log_msg = f'Stopping {self_script_name} ...'
-        print(log_msg ,end='')
+        print(log_msg, end='')
         check_pid = os.getpid()
 
         pid_to_kill = None
