@@ -21,6 +21,7 @@ DAEMON_RUNNING = None
 def main():
     """
     Main function of the ehdtd_daemon.py.
+    =====================================
 
     This function start and stop daemon.
 
@@ -31,6 +32,9 @@ def main():
         -h, --help                  Display this help message and exit.
         -c, --config=CONFIG_FILE    Specify alternative config file,\
             Default /etc/ehdtd-daemon/ehdtd-daemon.yaml.
+            The ehdtd-daemon.yaml configuration file follows a YAML\
+            (YAML Ain't Markup Language) format. It consists of several sections and parameters,\
+            allowing customization of the daemon's behavior. See README.md for the format details.
 
     Commands:
         start       Start the daemon
