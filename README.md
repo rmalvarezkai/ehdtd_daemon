@@ -12,23 +12,23 @@ pip install ehdtd_daemon
 
 ## Usage
 ```
-    python ehdtd_daemon.py [options] command
+python ehdtd_daemon.py [options] command
 ```
 
 ## Example
 ```
-    python ehdtd_daemon.py start
-    sleep 900
-    python ehdtd_daemon.py stop
+python ehdtd_daemon.py start
+sleep 900
+python ehdtd_daemon.py stop
 ```
 
 ## Options
-    - -h, --help                  Display this help message and exit.
-    - -c, --config=CONFIG_FILE    Specify an alternative config file, Default is '/etc/ehdtd-daemon/ehdtd-daemon.yaml'
+* `-h, --help`:                  Display this help message and exit.
+* `-c, --config=CONFIG_FILE`:    Specify an alternative config file, Default is '/etc/ehdtd-daemon/ehdtd-daemon.yaml'
 
 ## Commands
-    - start:       Start the daemon
-    - stop:        Stop the daemon
+* `start`:       Start the daemon
+* `stop`:        Stop the daemon
 
 ## Configuration File Format
 
