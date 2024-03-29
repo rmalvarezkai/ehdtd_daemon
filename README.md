@@ -23,12 +23,12 @@ pip install ehdtd_daemon
 ```
 
 ## Options
-    * -h, --help                  Display this help message and exit.
-    * -c, --config=CONFIG_FILE    Specify an alternative config file, Default is '/etc/ehdtd-daemon/ehdtd-daemon.yaml'
+    - -h, --help                  Display this help message and exit.
+    - -c, --config=CONFIG_FILE    Specify an alternative config file, Default is '/etc/ehdtd-daemon/ehdtd-daemon.yaml'
 
 ## Commands
-    * start:       Start the daemon
-    * stop:        Stop the daemon
+    - start:       Start the daemon
+    - stop:        Stop the daemon
 
 ## Configuration File Format
 
