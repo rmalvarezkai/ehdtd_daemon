@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """
 Ehdtd daemon - Daemon script for ehdtd package
 
@@ -23,7 +22,7 @@ def main():
     """
     Main function of the ehdtd_daemon.py.
 
-    This function start and stop.
+    This function start and stop daemon.
 
     Usage:
         python ehdtd_daemon.py [options] command

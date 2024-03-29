@@ -1,7 +1,7 @@
 
 global:
-    log_dir: None # Default /var/log/ehdtd-daemon
-    run_dir: None # Default /run
+    log_dir: null # Default /var/log/ehdtd-daemon
+    run_dir: null # Default /run
     debug: false
 
 db_data:
@@ -14,7 +14,7 @@ db_data:
 
 exchanges:
   binance:
-    trading_type: 'SPOT'
+    trading_type: 'SPOT' # Only support SPOT
 
     fetch_data:
       - symbol: BTC/USDT
