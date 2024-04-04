@@ -1,0 +1,67 @@
+#!/bin/bash
+
+RPL=/usr/bin/rpl
+CP=/bin/cp
+RM=/bin/rm
+USERADD=/usr/sbin/useradd
+USERDEL=/usr/sbin/userdel
+OPENSSL=/usr/bin/openssl
+CHOWN=/bin/chown
+CHMOD=/bin/chmod
+MKDIR=/bin/mkdir
+LN=/bin/ln
+CAT=/bin/cat
+ECHO=/bin/echo
+MKTEMP=/bin/mktemp
+PWGEN=/usr/bin/pwgen
+BASENAME=/usr/bin/basename
+UPDATE_RC_D=/usr/sbin/update-rc.d
+SYSTEMCTL=/bin/systemctl
+
+SOFT_NAME=_PACKAGE_NAME_
+ROOT_DIR=____ROOT____DIR____
+SYSTEM_USER=_SYSTEM_USER_
+VAR_PATH=${ROOT_DIR}var/lib/${SYSTEM_USER}
+
+SYSTEMD_SERVICE=martingale.service
+
+if [ -f /usr/share/debconf/confmodule ]
+then
+    . /usr/share/debconf/confmodule
+fi
+
+if [ -f /usr/share/dbconfig-common/dpkg/postrm.pgsql ]; then
+    . /usr/share/dbconfig-common/dpkg/postrm.pgsql
+    dbc_go ${SOFT_NAME} "$@"
+fi
+
+if [ "$1" = "purge" ]
+then
+    UCF="ucf"
+    UCFR="ucfr"
+
+    if command -v ucfq >/dev/null
+    then
+        for file in $(ucfq --with-colons "${SOFT_NAME}" | cut --delimiter=: --fields=1)
+        do
+            rm -f ${file}
+            ucf --purge ${file}
+            ucfr --purge ${SOFT_NAME} ${file}
+        done
+    else
+        ${ECHO} >&2 "ucf no longer installed, not cleaning up"
+    fi
+
+    db_purge
+    
+    ${USERDEL} ${SYSTEM_USER}
+    ${RM} -r -f ${VAR_PATH} 1>/dev/null 2>/dev/null
+    ${RM} -r -f /etc/${SOFT_NAME} 1>/dev/null 2>/dev/null
+    ${RM} -f /etc/default/${SOFT_NAME} 1>/dev/null 2>/dev/null
+    
+    if which ucf >/dev/null 2>&1
+    then
+        ucf --purge ${ROOT_DIR}etc/${SOFT_NAME}/postgresql-config.php
+        ucfr --purge ${SOFT_NAME} ${ROOT_DIR}etc/${SOFT_NAME}/postgresql-config.php
+    fi
+fi

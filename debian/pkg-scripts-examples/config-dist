@@ -1,0 +1,31 @@
+#!/bin/bash
+#
+# Install / upgrade database.
+
+set -e
+
+SOFT_NAME=_PACKAGE_NAME_
+ROOT_DIR=____ROOT____DIR____
+SYSTEM_USER=_SYSTEM_USER_
+VAR_PATH=${ROOT_DIR}var/lib/${SYSTEM_USER}
+
+SYSTEMD_SERVICE=martingale.service
+SYSTEMD_PATH=${ROOT_DIR}usr/share/${SOFT_NAME}/config/${SYSTEMD_SERVICE}
+
+if [ -f /usr/share/debconf/confmodule ]
+then
+    . /usr/share/debconf/confmodule
+fi
+
+if [ -f /usr/share/dbconfig-common/dpkg/config.pgsql ]; then
+	. /usr/share/dbconfig-common/dpkg/config.pgsql
+
+	# Default values
+	dbc_dbuser="${SOFT_NAME}"
+	dbc_dbname="${SOFT_NAME}"
+	dbc_ssl="true"
+
+	dbc_go ${SOFT_NAME} $@
+fi
+
+exit 0

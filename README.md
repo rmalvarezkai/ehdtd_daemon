@@ -41,7 +41,7 @@ The global configuration section defines settings that apply to the entire daemo
 #### Parameters
 
     log_dir: The directory path for log files. Default is /var/log/ehdtd-daemon.
-    run_dir: The directory path for runtime files. Default is /run.
+    run_dir: The directory path for runtime files. Default is /run/ehdtd-daemon.
     debug: A boolean flag indicating whether to enable debug mode. Default is false.
 
 ### Database Configuration

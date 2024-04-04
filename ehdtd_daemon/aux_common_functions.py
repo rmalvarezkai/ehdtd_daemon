@@ -296,6 +296,8 @@ def get_config_data(config_file):
 
     """
     result = None
+    default_log_dir = '/var/log/ehdtd-daemon'
+    default_run_dir = '/run/ehdtd-daemon'
 
     config_data = None
     default_config_file = '/etc/ehdtd-daemon/ehdtd-daemon-config.yaml'
@@ -308,13 +310,13 @@ def get_config_data(config_file):
         result = config_data
 
         if result['global']['log_dir'] is None or not isinstance(result['global']['log_dir'], str):
-            result['global']['log_dir'] = '/var/log/ehdtd-daemon'
+            result['global']['log_dir'] = default_log_dir
 
         if not os.path.exists(result['global']['log_dir']):
             os.makedirs(result['global']['log_dir'])
 
         if result['global']['run_dir'] is None or not isinstance(result['global']['run_dir'], str):
-            result['global']['run_dir'] = '/run'
+            result['global']['run_dir'] = default_run_dir
 
         if not os.path.exists(result['global']['run_dir']):
             os.makedirs(result['global']['run_dir'])
@@ -332,12 +334,9 @@ def is_pid_running(pid):
     try:
         os.kill(pid, 0)
         result = True
-        # print('ENTRE: 0')
     except OSError:
         result = False
-        # print('ENTRE: 1')
     else:
         result = True
-        # print('ENTRE: 2')
 
     return result

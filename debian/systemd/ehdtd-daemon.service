@@ -1,0 +1,13 @@
+[Unit]
+Description=Math Trading Bot Daemon
+After=network.target NetworkManager.service NetworkManager-wait-online.service networking.service ssh.service postfix.service rng-tools.service haveged.service
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/bash ____ROOT_DIR____/usr/lib/math-trading-bot/systemd/math-trading-bot-init.sh start
+ExecStop=/bin/bash ____ROOT_DIR____/usr/lib/math-trading-bot/systemd/math-trading-bot-init.sh stop
+TimeoutStartSec=950
+TimeoutStopSec=950
+[Install]
+WantedBy=multi-user.target
+

@@ -1,0 +1,8 @@
+#!/bin/sh
+set -e
+# Automatically added by dh_installdeb/13.3.4
+dpkg-maintscript-helper dir_to_symlink /usr/share/roundcube/plugins/jqueryui/js/i18n /usr/share/javascript/jquery-ui/ui/i18n 1.4.5\+dfsg.1-2\~ -- "$@"
+dpkg-maintscript-helper dir_to_symlink /var/lib/roundcube/config /etc/roundcube 1.1.2\+dfsg.1-4 -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/roundcube/db.inc.php 1.0.0\+dfsg.1-1\~ -- "$@"
+dpkg-maintscript-helper rm_conffile /etc/roundcube/main.inc.php 1.0.0\+dfsg.1-1\~ -- "$@"
+# End automatically added section

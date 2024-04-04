@@ -1,16 +1,16 @@
 
 global:
     log_dir: null # Default /var/log/ehdtd-daemon
-    run_dir: null # Default /run
+    run_dir: null # Default /run/ehdtd-daemon
     debug: false
 
 db_data:
-  db_type: postgresql  # postgresql, mysql
-  db_name: 'DB_NAME'
-  db_user: 'DB_USER'
-  db_pass: 'DB_PASS'
-  db_host: 'DB_HOST'
-  db_port: 'DB_PORT'
+  db_type: '_DBC_DBTYPE_'  # postgresql, mysql
+  db_name: '_DBC_DBNAME_'
+  db_user: '_DBC_DBUSER_'
+  db_pass: '_DBC_DBPASS_'
+  db_host: '_DBC_DBSERVER_'
+  db_port: '_DBC_DBPORT_'
 
 exchanges:
   binance:
@@ -19,18 +19,10 @@ exchanges:
     fetch_data:
       - symbol: BTC/USDT
         interval: 1m
-      - symbol: 'BNB/USDT'
-        interval: 1m
-      - symbol: 'ETH/USDT'
-        interval: 1m
       - symbol: LTC/USDT
         interval: 1m
 
       - symbol: BTC/USDT
-        interval: 5m
-      - symbol: 'BNB/USDT'
-        interval: 5m
-      - symbol: 'ETH/USDT'
         interval: 5m
       - symbol: LTC/USDT
         interval: 5m
