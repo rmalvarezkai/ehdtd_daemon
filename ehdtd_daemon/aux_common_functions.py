@@ -96,7 +96,6 @@ def file_get_contents_url(url, mode='b', post_data=None, headers=None, timeout=9
                 with urllib.request.urlopen(req, None, timeout=timeout) as response:
                     result = response.read()
 
-
             except Exception: # pylint: disable=broad-except
                 result = None
 
@@ -289,6 +288,22 @@ def __check_config_structure(config_data):
 
     return result
 
+def create_dir_without_exception(dir_in):
+    """
+    create_dir_without_exception
+    ============================
+
+    """
+    result = None
+    try:
+        if not os.path.exists(dir_in):
+            os.makedirs(dir_in)
+        result = True
+    except Exception: # pylint: disable=broad-except
+        result = False
+
+    return result
+
 def get_config_data(config_file):
     """
     get_config_data
@@ -299,8 +314,15 @@ def get_config_data(config_file):
     default_log_dir = '/var/log/ehdtd-daemon'
     default_run_dir = '/run/ehdtd-daemon'
 
+    home_dir = os.getenv('HOME')
+
+    default_home_log_dir = os.path.join(home_dir, '.ehdtd-daemon/var/log')
+    default_home_run_dir = os.path.join(home_dir, '.ehdtd-daemon/var/run')
+
+
     config_data = None
     default_config_file = '/etc/ehdtd-daemon/ehdtd-daemon-config.yaml'
+
     if config_file is not None and isinstance(config_file, str) and os.path.exists(config_file):
         config_data = read_config_yaml(config_file)
     elif os.path.exists(default_config_file):
@@ -312,14 +334,40 @@ def get_config_data(config_file):
         if result['global']['log_dir'] is None or not isinstance(result['global']['log_dir'], str):
             result['global']['log_dir'] = default_log_dir
 
-        if not os.path.exists(result['global']['log_dir']):
-            os.makedirs(result['global']['log_dir'])
+        if not (create_dir_without_exception(result['global']['log_dir'])\
+            and os.access(result['global']['log_dir'], os.W_OK)):
+            result['global']['log_dir'] = default_log_dir
+            if not (create_dir_without_exception(result['global']['log_dir'])\
+                and os.access(result['global']['log_dir'], os.W_OK)):
+                result['global']['log_dir'] = default_home_log_dir
+                if not (create_dir_without_exception(result['global']['log_dir'])\
+                    and os.access(result['global']['log_dir'], os.W_OK)):
+                    return None
 
-        if result['global']['run_dir'] is None or not isinstance(result['global']['run_dir'], str):
+        if not (create_dir_without_exception(result['global']['run_dir'])\
+            and os.access(result['global']['run_dir'], os.W_OK)):
             result['global']['run_dir'] = default_run_dir
+            if not (create_dir_without_exception(result['global']['run_dir'])\
+                and os.access(result['global']['run_dir'], os.W_OK)):
+                result['global']['run_dir'] = default_home_run_dir
+                if not (create_dir_without_exception(result['global']['run_dir'])\
+                    and os.access(result['global']['run_dir'], os.W_OK)):
+                    return None
 
-        if not os.path.exists(result['global']['run_dir']):
-            os.makedirs(result['global']['run_dir'])
+        if result['db_data']['db_type'] is not None\
+            and isinstance(result['db_data']['db_type'], str)\
+            and result['db_data']['db_type'] == 'pgsql':
+            result['db_data']['db_type'] = 'postgresql'
+
+        if result['db_data']['db_port'] is None\
+            or result['db_data']['db_port'] is False\
+            or (isinstance(result['db_data']['db_port'], str)\
+                and len(result['db_data']['db_port']) == 0):
+
+            if result['db_data']['db_type'] == 'postgresql':
+                result['db_data']['db_port'] = '5432'
+            elif result['db_data']['db_type'] == 'mysql':
+                result['db_data']['db_port'] = '3306'
 
     return result
 

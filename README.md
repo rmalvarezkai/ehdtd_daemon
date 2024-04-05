@@ -50,7 +50,7 @@ The database configuration section defines parameters for connecting to the data
 
 #### Parameters
 
-    db_type: The type of database used by the daemon. Supported options are PostgreSQL and MySQL.
+    db_type: The type of database used by the daemon. Supported options are postgresql, pgsql and mysql.
     db_name: The name of the database.
     db_user: The username used to connect to the database.
     db_pass: The password used to authenticate the database user.
@@ -77,7 +77,7 @@ The exchange configuration section defines parameters specific to each supported
 
 global:
   log_dir: /var/log/ehdtd-daemon
-  run_dir: /run
+  run_dir: /run/ehdtd-daemon
   debug: false
 
 db_data:

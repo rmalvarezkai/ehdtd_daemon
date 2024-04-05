@@ -5,7 +5,7 @@ global:
     debug: false
 
 db_data:
-  db_type: '_DBC_DBTYPE_'  # postgresql, mysql
+  db_type: '_DBC_DBTYPE_'  # postgresql, pgsql, mysql
   db_name: '_DBC_DBNAME_'
   db_user: '_DBC_DBUSER_'
   db_pass: '_DBC_DBPASS_'

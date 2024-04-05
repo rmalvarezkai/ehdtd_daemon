@@ -51,5 +51,3 @@ venv.bak/
 .log/
 .run/
 etc/ehdtd-daemon/ehdtd-daemon-config.yaml
-debian
-debian-pkg
