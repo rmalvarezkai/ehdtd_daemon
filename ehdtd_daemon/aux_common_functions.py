@@ -316,6 +316,9 @@ def get_config_data(config_file):
 
     home_dir = os.getenv('HOME')
 
+    if home_dir is None:
+        home_dir = '/tmp/.ehdtd'
+
     default_home_log_dir = os.path.join(home_dir, '.ehdtd-daemon/var/log')
     default_home_run_dir = os.path.join(home_dir, '.ehdtd-daemon/var/run')
 
