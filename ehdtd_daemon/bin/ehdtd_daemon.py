@@ -110,7 +110,26 @@ def main():
         and isinstance(config_data['exchanges'], dict):
         for exchange in config_data['exchanges']:
             if exchange is not None and isinstance(exchange, str):
-                connections_data[exchange] = Ehdtd.get_exchange_connectivity(exchange)
+                connection_data = Ehdtd.get_exchange_connectivity(exchange)
+                connection_data_out = {}
+                connection_data_out['result'] = None
+                connection_data_out['code'] = None
+                connection_data_out['res_code'] = None
+                connection_data_out['res_msg'] = None
+                if connection_data is not None and isinstance(connection_data, dict):
+                    if 'result' in connection_data:
+                        connection_data_out['result'] = connection_data['result']
+
+                    if 'code' in connection_data:
+                        connection_data_out['code'] = connection_data['code']
+
+                    if 'res_code' in connection_data:
+                        connection_data_out['res_code'] = connection_data['res_code']
+
+                    if 'res_msg' in connection_data:
+                        connection_data_out['res_msg'] = connection_data['res_msg']
+
+                connections_data[exchange] = connection_data_out
                 if connections_data[exchange] is None or not connections_data[exchange]['result']:
                     connections_ok = False
     else:
