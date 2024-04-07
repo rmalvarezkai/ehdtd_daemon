@@ -118,7 +118,9 @@ def main():
 
     if command_input == "start":
         if not connections_ok:
-            print(f'Connection error: {connections_data}')
+            err_msg = pprint.pformat(connections_data, sort_dicts=False)
+            print('Connection error:')
+            print(err_msg)
             return 1
 
         def capture_signal(signal_number, frame): # pylint: disable=unused-argument
@@ -226,7 +228,9 @@ def main():
             pid_to_kill = int(acf.file_get_contents(run_file))
         else:
             if not connections_ok:
-                print(f'Connection error: {connections_data}')
+                err_msg = pprint.pformat(connections_data, sort_dicts=False)
+                print('Connection error:')
+                print(err_msg)
                 return 1
 
         if pid_to_kill is not None and pid_to_kill != check_pid and acf.is_pid_running(pid_to_kill):
@@ -246,7 +250,8 @@ def main():
         print(' Ready', flush=True)
 
     elif command_input == "check":
-        print(f'{connections_data}')
+        out_msg = pprint.pformat(connections_data, sort_dicts=False)
+        print(out_msg)
         return 0
 
     return result
