@@ -39,6 +39,7 @@ def main():
     Commands:
         start       Start the daemon
         stop        Stop the daemon
+        check   Check exchange connectivity
 
     """
 
@@ -64,6 +65,7 @@ def main():
     Commands:
         start   Start the daemon
         stop    Stop the daemon
+        check   Check exchange connectivity
 
     """
 
@@ -99,7 +101,26 @@ def main():
     log_file = os.path.join(log_dir, "ehdtd-daemon.log")
     err_file = os.path.join(log_dir, "ehdtd-daemon.err")
 
+    connections_ok = True
+    connections_data = {}
+
+    if config_data is not None\
+        and 'exchanges' in config_data\
+        and config_data['exchanges'] is not None\
+        and isinstance(config_data['exchanges'], dict):
+        for exchange in config_data['exchanges']:
+            if exchange is not None and isinstance(exchange, str):
+                connections_data[exchange] = Ehdtd.get_exchange_connectivity(exchange)
+                if connections_data[exchange] is None or not connections_data[exchange]['result']:
+                    connections_ok = False
+    else:
+        connections_ok = False
+
     if command_input == "start":
+        if not connections_ok:
+            print(f'Connection error: {connections_data}')
+            return 1
+
         def capture_signal(signal_number, frame): # pylint: disable=unused-argument
             global DAEMON_RUNNING # pylint: disable=global-statement
             result = True
@@ -203,6 +224,10 @@ def main():
 
         if os.path.exists(run_file):
             pid_to_kill = int(acf.file_get_contents(run_file))
+        else:
+            if not connections_ok:
+                print(f'Connection error: {connections_data}')
+                return 1
 
         if pid_to_kill is not None and pid_to_kill != check_pid and acf.is_pid_running(pid_to_kill):
             os.kill(pid_to_kill,signal.SIGTERM)
@@ -219,6 +244,10 @@ def main():
             os.kill(pid_to_kill,signal.SIGKILL)
             result = 1
         print(' Ready', flush=True)
+
+    elif command_input == "check":
+        print(f'{connections_data}')
+        return 0
 
     return result
 
