@@ -95,6 +95,38 @@ def main():
         print(err_msg, flush=True)
         return 2
 
+    db_type = None
+    db_host = None
+    db_port = None
+    db_name = None
+    db_user = None
+    db_pass = None
+
+    if 'db_data' in config_data:
+        db_data = config_data['db_data']
+
+        if 'db_type' in db_data:
+            db_type = db_data['db_type']
+
+        if 'db_host' in db_data:
+            db_host = db_data['db_host']
+
+        if 'db_port' in db_data:
+            db_port = db_data['db_port']
+
+        if 'db_name' in db_data:
+            db_name = db_data['db_name']
+
+        if 'db_user' in db_data:
+            db_user = db_data['db_user']
+
+        if 'db_pass' in db_data:
+            db_pass = db_data['db_pass']
+
+    if not acf.check_database_connection(db_type, db_host, db_port, db_name, db_user, db_pass):
+        print('Database connection ERROR')
+        return 2
+
     log_dir = config_data['global']['log_dir']
     run_dir = config_data['global']['run_dir']
     run_file = os.path.join(run_dir, "ehdtd-daemon.pid")

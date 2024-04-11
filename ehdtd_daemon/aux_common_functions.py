@@ -16,6 +16,8 @@ import time
 import datetime
 import pprint # pylint: disable=unused-import
 import yaml
+import psycopg2
+import pymysql
 from schema import Schema, Or
 
 def is_json(myjson):
@@ -389,5 +391,56 @@ def is_pid_running(pid):
         result = False
     else:
         result = True
+
+    return result
+
+def check_database_connection(db_type, db_host, db_port, db_name, db_user, db_pass):
+    """
+    check_database_connection
+    =========================
+
+    Check the connection to a database with the provided parameters.
+
+    Parameters:
+        db_type (str): The type of database, either 'postgresql' or 'mysql'.
+        db_host (str): The hostname or IP address of the database server.
+        db_port (int): The port number on which the database server is listening.
+        db_name (str): The name of the database.
+        db_user (str): The username for authenticating to the database server.
+        db_pass (str): The password for authenticating to the database server.
+ 
+    Returns:
+        bool: True if the connection is successful, False otherwise.
+
+    Raises:
+        Exception: If an error occurs while trying to establish the connection.
+    """
+    result = False
+
+    try:
+        if db_type == 'postgresql' or db_type == 'pgsql':
+            conn = psycopg2.connect(
+                host=db_host,
+                port=int(db_port),
+                dbname=db_name,
+                user=db_user,
+                password=db_pass
+            )
+            conn.close()
+            result = True
+        elif db_type == 'mysql' or db_type == 'mariadb':
+            conn = pymysql.connect(
+                host=db_host,
+                port=int(db_port),
+                database=db_name,
+                user=db_user,
+                password=db_pass
+            )
+            conn.close()
+            result = True
+        else:
+            result = False
+    except Exception: # pylint: disable=broad-except
+        result = False
 
     return result
