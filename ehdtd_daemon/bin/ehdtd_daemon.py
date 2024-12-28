@@ -198,8 +198,7 @@ def main():
                 logging.Formatter('%(asctime)s %(message)s', datefmt='%Y-%m-%d %H:%M:%S -')
             )
 
-            log_handler = logging.FileHandler(log_file)
-            log_handler_w = logging.handlers.WatchedFileHandler(log_file)
+            log_handler = logging.handlers.WatchedFileHandler(log_file)
             log_handler.setFormatter(__log_formatter)
             __local_log_logger = logging.getLogger('EHDTD_DAEMON_LOG')
             __local_log_logger.setLevel(logging.INFO)
@@ -208,10 +207,8 @@ def main():
                 __local_log_logger.removeHandler(handler)
 
             __local_log_logger.addHandler(log_handler)
-            __local_log_logger.addHandler(log_handler_w)
 
-            err_handler = logging.FileHandler(err_file)
-            err_handler_w = logging.handlers.WatchedFileHandler(err_file)
+            err_handler = logging.handlers.WatchedFileHandler(err_file)
             err_handler.setFormatter(__err_formatter)
             __local_err_logger = logging.getLogger('EHDTD_DAEMON_ERR')
             __local_err_logger.setLevel(logging.ERROR)
@@ -220,7 +217,6 @@ def main():
                 __local_err_logger.removeHandler(handler)
 
             __local_err_logger.addHandler(err_handler)
-            __local_err_logger.addHandler(err_handler_w)
 
             log_msg = f'Starting {self_script_name}'
             __local_log_logger.info(log_msg)

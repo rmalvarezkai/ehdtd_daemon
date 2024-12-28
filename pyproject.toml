@@ -15,7 +15,7 @@ importlib = "^1.0.4"
 logging = "^0.4.9.6"
 psycopg2-binary = "^2.9.9"
 pymysql = "^1.1.0"
-ehdtd = ">=0.2.19"
+ehdtd = ">=0.2.20"
 
 [tool.poetry.scripts]
 ehdtd_daemon = 'ehdtd_daemon.bin.ehdtd_daemon:main'
