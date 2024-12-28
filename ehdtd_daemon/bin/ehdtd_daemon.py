@@ -5,7 +5,6 @@ Author: Ricardo Marcelo Alvarez
 Date: 2024-03-14
 """
 
-import logging.handlers
 import sys
 import os
 import signal

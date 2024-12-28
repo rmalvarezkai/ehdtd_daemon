@@ -6,7 +6,7 @@ authors = ["Ricardo Marcelo Alvarez <rmalvarezkai@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 homepage = "https://github.com/rmalvarezkai/ehdtd_daemon"
-include = ["etc/ehdtd-daemon/ehdtd-daemon-config-sample.yaml"]
+include = ["ehdtd_daemon/etc/ehdtd-daemon/ehdtd-daemon-config-sample.yaml"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
