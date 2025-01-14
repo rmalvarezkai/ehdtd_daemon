@@ -47,7 +47,7 @@ ENV/
 env.bak/
 venv.bak/
 
-.vscode/
 .log/
 .run/
 etc/ehdtd-daemon/ehdtd-daemon-config.yaml
+
