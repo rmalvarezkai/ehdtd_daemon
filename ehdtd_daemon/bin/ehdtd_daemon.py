@@ -235,8 +235,7 @@ def main():
                                 trading_type=data['trading_type'],\
                                 debug=config_data['global']['debug'])
                     ehds.append(ehd)
-                    ehd.start()
-                    DAEMON_RUNNING = True
+                    DAEMON_RUNNING = False
 
                 end_log_msg = f'Stopping {self_script_name}'
 
@@ -245,8 +244,14 @@ def main():
                 __local_err_logger.error(err_msg)
                 DAEMON_RUNNING = False
             else:
-                DAEMON_RUNNING = True
+                DAEMON_RUNNING = False
                 end_log_msg = f'Stopping {self_script_name}'
+
+            if ehds is not None and isinstance(ehds, list) and len(ehds) > 0:
+                for ehd in ehds:
+                    if ehd is not None:
+                        ehd.start()
+                DAEMON_RUNNING = True
 
             while DAEMON_RUNNING:
                 time.sleep(5)
@@ -254,7 +259,8 @@ def main():
             if end_log_msg is not None:
                 if ehds is not None and isinstance(ehds, list) and len(ehds) > 0:
                     for ehd in ehds:
-                        ehd.stop()
+                        if ehd is not None:
+                            ehd.stop()
                 __local_log_logger.info(end_log_msg)
 
             if os.path.exists(run_file):
