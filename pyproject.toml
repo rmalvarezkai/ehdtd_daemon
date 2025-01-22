@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ehdtd-daemon"
-version = "0.2.12"
+version = "0.2.14"
 description = "Daemon script for ehdtd package"
 authors = ["Ricardo Marcelo Alvarez <rmalvarezkai@gmail.com>"]
 license = "MIT"
@@ -15,7 +15,7 @@ importlib = "^1.0.4"
 logging = "^0.4.9.6"
 psycopg2-binary = "^2.9.10"
 pymysql = "^1.1.1"
-ehdtd = "^0.2.29"
+ehdtd = "^0.2.30"
 
 [tool.poetry.scripts]
 ehdtd_daemon = 'ehdtd_daemon.bin.ehdtd_daemon:main'
