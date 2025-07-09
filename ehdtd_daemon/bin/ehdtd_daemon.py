@@ -130,6 +130,9 @@ def main():
 
     log_dir = config_data['global']['log_dir']
     run_dir = config_data['global']['run_dir']
+
+    restart_time_limit = config_data.get('global', {}).get('restart_time_limit', 14400)
+
     run_file = os.path.join(run_dir, "ehdtd-daemon.pid")
     log_file = os.path.join(log_dir, "ehdtd-daemon.log")
     err_file = os.path.join(log_dir, "ehdtd-daemon.err")
@@ -254,14 +257,27 @@ def main():
                         ehd.start()
                 DAEMON_RUNNING = True
 
+            __time_end = time.time() + restart_time_limit
+
             while DAEMON_RUNNING:
+                if time.time() > __time_end:
+                    if ehds is not None and isinstance(ehds, list) and len(ehds) > 0:
+                        for ehd in ehds:
+                            if ehd is not None:
+                                ehd.stop()
+                                time.sleep(1)
+                                ehd.start()
+
+                    __time_end = time.time() + restart_time_limit
+
                 time.sleep(5)
 
+            if ehds is not None and isinstance(ehds, list) and len(ehds) > 0:
+                for ehd in ehds:
+                    if ehd is not None:
+                        ehd.stop()
+
             if end_log_msg is not None:
-                if ehds is not None and isinstance(ehds, list) and len(ehds) > 0:
-                    for ehd in ehds:
-                        if ehd is not None:
-                            ehd.stop()
                 __local_log_logger.info(end_log_msg)
 
             if os.path.exists(run_file):
