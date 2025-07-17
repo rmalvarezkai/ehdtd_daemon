@@ -278,8 +278,9 @@ def __check_config_structure(config_data):
     )
 
     schema_global = Schema({'log_dir': Or(str, None),
-                     'run_dir': Or(str, None),
-                     'debug': bool
+                            'run_dir': Or(str, None),
+                            'restart_time_limit': Or(str, int, None),
+                            'debug': bool
                     }
     )
 
