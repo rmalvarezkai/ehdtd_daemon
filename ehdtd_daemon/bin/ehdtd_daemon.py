@@ -299,7 +299,7 @@ def main():
         pid_to_kill = None
 
         if os.path.exists(run_file):
-            pid_to_kill = int(acf.file_get_contents(run_file))
+            pid_to_kill = int(str(acf.file_get_contents(run_file)).strip())
         else:
             if not connections_ok:
                 err_msg = pprint.pformat(connections_data, sort_dicts=False)
@@ -308,7 +308,7 @@ def main():
                 return 1
 
         if pid_to_kill is not None and pid_to_kill != check_pid and acf.is_pid_running(pid_to_kill):
-            os.kill(pid_to_kill,signal.SIGTERM)
+            os.kill(pid_to_kill, signal.SIGTERM)
 
         max_wait_to_stop = 900
         time_stop = 0
@@ -319,7 +319,7 @@ def main():
             time.sleep(5)
 
         if acf.is_pid_running(pid_to_kill):
-            os.kill(pid_to_kill,signal.SIGKILL)
+            os.kill(pid_to_kill, signal.SIGKILL)
             result = 1
         print(' Ready', flush=True)
 
