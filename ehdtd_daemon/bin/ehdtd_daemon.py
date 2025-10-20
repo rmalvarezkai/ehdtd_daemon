@@ -19,6 +19,21 @@ import ehdtd_daemon.aux_common_functions as acf # pylint: disable=import-error, 
 
 DAEMON_RUNNING = None
 
+def capture_signal(signal_number, frame): # pylint: disable=unused-argument
+    """
+    Capture termination signals to stop the daemon gracefully.
+    =======================================================================
+    Args:
+        signal_number (int): The signal number received.
+        frame: The current stack frame (not used).
+    Returns:
+        bool: True if the signal was captured and processed, False otherwise.
+    """
+    global DAEMON_RUNNING # pylint: disable=global-statement
+    result = True
+    DAEMON_RUNNING = False # pylint: disable=unused-variable
+    return result
+
 def main():
     """
     Main function of the ehdtd_daemon.py.
@@ -177,12 +192,6 @@ def main():
             print('Connection error:')
             print(err_msg)
             return 1
-
-        def capture_signal(signal_number, frame): # pylint: disable=unused-argument
-            global DAEMON_RUNNING # pylint: disable=global-statement
-            result = True
-            DAEMON_RUNNING = False # pylint: disable=unused-variable
-            return result
 
         signal.signal(signal.SIGTERM, capture_signal)
         signal.signal(signal.SIGINT, capture_signal)
