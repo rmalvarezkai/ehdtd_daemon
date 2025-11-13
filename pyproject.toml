@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ehdtd-daemon"
-version = "0.2.23"
+version = "0.2.25"
 description = "Daemon script for ehdtd package"
 authors = ["Ricardo Marcelo Alvarez <rmalvarezkai@gmail.com>"]
 license = "MIT"
@@ -14,24 +14,25 @@ include = [
     ] },
 ]
 
+exclude = ["ehdtd_daemon/etc/ehdtd-daemon/ehdtd-daemon-config.yaml"]
 
 [tool.poetry.dependencies]
-python = "^3.11"
-pyyaml = "^6.0.2"
+python = "^3.13"
+pyyaml = "^6.0.3"
 importlib = "^1.0.4"
 logging = "^0.4.9.6"
-psycopg2-binary = "^2.9.10"
-pymysql = "^1.1.1"
-ehdtd = "^0.2.32"
+psycopg2-binary = "^2.9.11"
+pymysql = "^1.1.2"
+ehdtd = "^0.2.36"
 
 [tool.poetry.scripts]
 ehdtd_daemon = 'ehdtd_daemon.bin.ehdtd_daemon:main'
 
 [tool.poetry.group.dev.dependencies]
-pylint = "^3.3.3"
-pytest = "^8.3.4"
-pytest-xdist = "^3.6.1"
-ipykernel = "^6.29.5"
+pylint = "^4.0.2"
+pytest = "^9.0.0"
+pytest-xdist = "^3.8.0"
+ipykernel = "^7.1.0"
 
 [build-system]
 requires = ["poetry-core"]
