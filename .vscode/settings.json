@@ -10,5 +10,13 @@
     "markdown-preview-github-styles.colorTheme": "dark",
     "python.terminal.launchArgs": [],
     "python.analysis.autoImportCompletions": true,
-    "pylint.importStrategy": "fromEnvironment"
+    "pylint.importStrategy": "fromEnvironment",
+    "files.watcherExclude": {
+        "**/.venv/**": true,
+        "**/node_modules/**": true,
+        "**/dist/**": true,
+        "**/.git/objects/**": true,
+        "**/.var/**": true,
+        "**/.log/**": true
+    }
 }

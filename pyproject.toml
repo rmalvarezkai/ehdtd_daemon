@@ -1,11 +1,14 @@
-[tool.poetry]
+[project]
 name = "ehdtd-daemon"
-version = "0.2.27"
+version = "0.2.28"
 description = "Daemon script for ehdtd package"
-authors = ["Ricardo Marcelo Alvarez <rmalvarezkai@gmail.com>"]
+authors = [
+    {name = "Ricardo Marcelo Alvarez",email = "rmalvarezkai@gmail.com"}
+]
 license = "MIT"
 readme = "README.md"
 homepage = "https://github.com/rmalvarezkai/ehdtd_daemon"
+requires-python = ">=3.13,<=3.14"
 
 include = [
     { path = "ehdtd_daemon/etc/ehdtd-daemon/ehdtd-daemon-config-sample.yaml", format = [
@@ -15,25 +18,27 @@ include = [
 ]
 
 exclude = ["ehdtd_daemon/etc/ehdtd-daemon/ehdtd-daemon-config.yaml"]
+dependencies = [
+    "ehdtd>=0.2.39",
+    "importlib>=1.0.4",
+    "logging>=0.4.9.6",
+    "psycopg2-binary>=2.9.12",
+    "pymysql>=1.1.2",
+    "pyyaml>=6.0.3",
+]
 
-[tool.poetry.dependencies]
-python = "^3.13"
-pyyaml = "^6.0.3"
-importlib = "^1.0.4"
-logging = "^0.4.9.6"
-psycopg2-binary = "^2.9.11"
-pymysql = "^1.1.2"
-ehdtd = "^0.2.38"
 
-[tool.poetry.scripts]
+[project.scripts]
 ehdtd_daemon = 'ehdtd_daemon.bin.ehdtd_daemon:main'
 
-[tool.poetry.group.dev.dependencies]
-pylint = "^4.0.2"
-pytest = "^9.0.0"
-pytest-xdist = "^3.8.0"
-ipykernel = "^7.1.0"
-
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.2.0",
+    "pylint>=4.0.5",
+    "pytest>=9.0.3",
+    "pytest-xdist>=3.8.0",
+]
