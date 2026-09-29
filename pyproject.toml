@@ -1,6 +1,6 @@
 [project]
 name = "ehdtd-daemon"
-version = "0.2.33"
+version = "0.2.34"
 description = "Daemon script for ehdtd package"
 authors = [
     {name = "Ricardo Marcelo Alvarez",email = "rmalvarezkai@gmail.com"}
