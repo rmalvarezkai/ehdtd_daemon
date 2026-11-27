@@ -1,6 +1,6 @@
 [project]
 name = "ehdtd-daemon"
-version = "0.2.36"
+version = "0.2.37"
 description = "Daemon script for ehdtd package"
 authors = [
     {name = "Ricardo Marcelo Alvarez",email = "rmalvarezkai@gmail.com"}
@@ -11,7 +11,7 @@ homepage = "https://github.com/rmalvarezkai/ehdtd_daemon"
 requires-python = ">=3.13,<=3.14"
 
 dependencies = [
-    "ehdtd>=0.2.44",
+    "ehdtd>=0.2.45",
     "importlib>=1.0.4",
     "psycopg2-binary>=2.9.12",
     "pymysql>=1.1.2",
